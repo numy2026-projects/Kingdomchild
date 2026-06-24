@@ -2148,7 +2148,10 @@ window.onAuthStateChanged = onAuthStateChanged;
   </div>
   </div>
   <script>
-async function registerUser() {
+catch (e) {
+  alert(JSON.stringify(e));
+  console.error(e);
+}
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
 
@@ -2160,7 +2163,10 @@ async function registerUser() {
   }
 }
 
-async function loginUser() {
+catch (e) {
+  alert(JSON.stringify(e));
+  console.error(e);
+    }
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
 
