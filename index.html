@@ -2098,5 +2098,84 @@ function restoreState() {
 // ── START ────────────────────────────────────────────────────
 init();
 </script>
+  <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA04F_8fG11LCRnlChER__uJrzk37_cYuE",
+  authDomain: "kingdom-yahweh.firebaseapp.com",
+  projectId: "kingdom-yahweh",
+  storageBucket: "kingdom-yahweh.firebasestorage.app",
+  messagingSenderId: "206333755576",
+  appId: "1:206333755576:web:24b292ab827b2fd923344d",
+  measurementId: "G-XNMWEGMKQ7"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.auth = auth;
+window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+window.signOut = signOut;
+window.onAuthStateChanged = onAuthStateChanged;
+  </script>
+  <div id="loginModal" style="position:fixed;inset:0;background:#050810;z-index:9999;display:flex;justify-content:center;align-items:center;">
+  <div style="width:90%;max-width:350px;">
+    <h2 style="color:gold;text-align:center;">Kingdom FX Login</h2>
+
+    <input id="email" type="email" placeholder="Email"
+      style="width:100%;padding:12px;margin:10px 0;">
+
+    <input id="password" type="password" placeholder="Password"
+      style="width:100%;padding:12px;margin:10px 0;">
+
+    <button onclick="loginUser()" style="width:100%;padding:12px;">
+      Login
+    </button>
+
+    <button onclick="registerUser()" style="width:100%;padding:12px;margin-top:10px;">
+      Register
+    </button>
+  </div>
+  </div>
+  <script>
+async function registerUser() {
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+
+  try {
+    await createUserWithEmailAndPassword(auth, email, password);
+    alert('Account created successfully');
+  } catch (e) {
+    alert(e.message);
+  }
+}
+
+async function loginUser() {
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    document.getElementById('loginModal').style.display = 'none';
+  } catch (e) {
+    alert(e.message);
+  }
+}
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    document.getElementById('loginModal').style.display = 'none';
+  }
+});
+  </script>
 </body>
 </html>
