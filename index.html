@@ -2120,6 +2120,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+window.auth = auth;
 
 window.auth = auth;
 window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
@@ -2152,7 +2153,7 @@ async function registerUser() {
   const password = document.getElementById('password').value;
 
   try {
-    await createUserWithEmailAndPassword(auth, email, password);
+    await createUserWithEmailAndPassword(window.auth, email, password);
     alert('Account created successfully');
   } catch (e) {
     alert(e.message);
@@ -2164,18 +2165,24 @@ async function loginUser() {
   const password = document.getElementById('password').value;
 
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    await signInWithEmailAndPassword(window.auth, email, password);
     document.getElementById('loginModal').style.display = 'none';
   } catch (e) {
     alert(e.message);
   }
 }
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
+onAuthStateChanged(window.auth, (user) => {
     document.getElementById('loginModal').style.display = 'none';
   }
 });
-  </script>
+  </script><script>
+const {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged
+} = window;
+
+async function registerUser() {
 </body>
 </html>
